@@ -39,4 +39,7 @@ export default class BooleanFunction {
     getTruthTable() {
         return this.#truthTable.getminTerms();
     }
+    getStringRepresentation() {
+        return this.#truthTable.getStringRepresentation();
+    }
 }
