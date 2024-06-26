@@ -1,5 +1,8 @@
 import { minTerm } from "./minTerm";
 
+const OR_OPERATOR = ' + ';
+const AND_OPERATOR = '';
+
 //This is an abstraction of a truth table as a collection of minTerms
 export class TruthTable {
     #numberOfInputs: number;
@@ -50,9 +53,9 @@ export class TruthTable {
                     .map(minTerm => minTerm.getValue()
                         .slice(0, minTerm.getValue().length - 1)
                         .map((value, index) => value ? `${variableNames[index]}` : `!${variableNames[index]}`)
-                        .join('')
+                        .join(AND_OPERATOR)
                     )
-                    .join(' + ');
+                    .join(OR_OPERATOR);
         }
     }
 }
