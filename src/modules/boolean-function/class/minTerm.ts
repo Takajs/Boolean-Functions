@@ -32,5 +32,8 @@ export class minTerm {
         this.#isActivated = !this.#isActivated;
         this.#value[this.#value.length - 1] = this.#isActivated;
     }
+    getNumberOfInputs() {
+        return this.#numberOfInputs;
+    }
 
 }
