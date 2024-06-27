@@ -2,26 +2,14 @@ import { BooleanFunction as BooleanFunctionClass } from '../../../modules/boolea
 import { InputBooleanVariable } from '../../../modules/boolean-function/class/InputBooleanVariable'
 import { minTerm } from '../../../modules/boolean-function/class/minTerm'
 export default function BooleanFunctionVisualizer({ booleanFunction, setBooleanFunction }: { booleanFunction: BooleanFunctionClass, setBooleanFunction: Function }) {
-
-    //We need to render:
-    //The inputs
-    //The truth table from which we can get:
-    //The string representation of the function
-    //The table containing the minterms
-    //The Karnaugh Map
-
-    //Render the Karnaugh Map, which are n tables, being n the number of minTerms/16 round up,
-    //Each table contains 4 rows and 4 columns at most, any other number if the number of minTerms is less than 16
-
     function renderKarnaughIndexesMap() {
         const karnaughIndexesMap = booleanFunction.getKarnaughIndexesMap();
         const karnaughActivationsMap = booleanFunction.getKarnaughActivationsMap();
 
 
         console.log(karnaughIndexesMap)
-        let result = [];
+        const result = [];
 
-        //Iterate 4 subarrays each time to add them to a new table and append it to the result
         for (let i = 0; i < karnaughIndexesMap.length; i += 4) {
             const table = [];
             for (let j = i; j < i + 4; j++) {
@@ -61,7 +49,6 @@ export default function BooleanFunctionVisualizer({ booleanFunction, setBooleanF
         console.log(karnaughActivationsMap)
         const result = [];
 
-        //Iterate 4 subarrays each time to add them to a new table and append it to the result
         for (let i = 0; i < karnaughActivationsMap.length; i += 4) {
             const table = [];
             for (let j = i; j < i + 4; j++) {
@@ -69,7 +56,6 @@ export default function BooleanFunctionVisualizer({ booleanFunction, setBooleanF
                     table.push(
                         <tr key={j}>
                             {
-                                //if the minterm is activated, render a 1, otherwise render a 0
                                 karnaughActivationsMap[j].map((value: boolean, index: number) => <td key={index}>{value ? '1' : '0'}</td>)
                             }
                         </tr>
@@ -138,26 +124,22 @@ export default function BooleanFunctionVisualizer({ booleanFunction, setBooleanF
             <p>{booleanFunction.getStringRepresentation()}</p>
             <h2>Karnaugh Map</h2>
             <div style={{
-                //Display half of the tables in a row and the other half in the next row
                 display: 'flex',
                 flexDirection: 'row'
 
             }}>
                 {
-                    //render only half of the tables
                     renderKarnaughIndexesMap().slice(0, Math.ceil(renderKarnaughIndexesMap().length / 2))
                 }
 
             </div>
 
             <div style={{
-                //Display half of the tables in a row and the other half in the next row
                 display: 'flex',
                 flexDirection: 'row'
 
             }}>
                 {
-                    //render only half of the tables
                     renderKarnaughIndexesMap().slice(Math.ceil(renderKarnaughIndexesMap().length / 2))
                 }
             </div>
