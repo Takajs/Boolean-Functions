@@ -22,7 +22,7 @@ export class BooleanFunction {
                 name: inputs[i]
             }));
         }
-        this.#activatedminterms = activatedminterms;
+        this.#activatedminterms = activatedminterms.filter(index => index < 2 ** this.#inputs.length);
         this.#truthTable = new TruthTable({
             numberOfInputs: this.#inputs.length,
             activatedminTerms: this.#activatedminterms
