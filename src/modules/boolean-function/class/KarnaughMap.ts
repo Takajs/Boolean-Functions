@@ -1,5 +1,5 @@
 import { minTerm } from './minTerm';
-export default class KarnaughMap {
+export class KarnaughMap {
 
     #minTerms: Array<minTerm>;
     #indexesMap: Array<Array<number>>;
@@ -16,6 +16,9 @@ export default class KarnaughMap {
     }
 
     generateIndexesMap() {
+        if(this.#minTerms.length === 4){
+            return [[0, 1, 2, 3]];
+        }
         let baseIndexes: Array<Array<number>> = [[0, 1]]; //For 1 variable
         const mirrorK = (k: Array<Array<number>>): Array<Array<number>> => {
             const initialLength = k.reduce((acc, val) => acc + val.length, 0);
@@ -57,6 +60,9 @@ export default class KarnaughMap {
 
     getIndexesMap() {
         return this.#indexesMap;
+    }
+    getActivationMap() {
+        return this.#activationMap;
     }
 
     generateActivationMap() {

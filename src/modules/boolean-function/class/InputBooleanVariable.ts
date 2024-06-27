@@ -41,7 +41,7 @@ export class InputBooleanVariable {
         this.#index = index;
     }
 
-    getIndex() {
+    getIndex() : number {
         return this.#index;
     }
     getName() {

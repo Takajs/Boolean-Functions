@@ -1,4 +1,5 @@
 import { minTerm } from "./minTerm";
+import { KarnaughMap } from "./KarnaughMap";
 
 const OR_OPERATOR = ' + ';
 const AND_OPERATOR = '';
@@ -9,6 +10,7 @@ export class TruthTable {
     #minTerms: Array<minTerm>;
     #activatedminTerms: Array<number>;
     #stringRepresentation: string;
+    #karnaughMap: KarnaughMap;
     constructor({
         numberOfInputs,
         activatedminTerms
@@ -22,6 +24,9 @@ export class TruthTable {
         this.#minTerms = [];
         this.generateTruthTable();
         this.#stringRepresentation = this.getStringRepresentation();
+        this.#karnaughMap = new KarnaughMap({
+            minTerms: this.#minTerms
+        });
     }
 
     generateTruthTable() {
@@ -34,7 +39,7 @@ export class TruthTable {
         }
     }
     getminTerms() {
-        return this.#minTerms.map(minTerm => minTerm.getValue());
+        return this.#minTerms;
     }
     invertminTerm(index: number) {
         this.#minTerms[index].invert();
@@ -57,5 +62,16 @@ export class TruthTable {
                     )
                     .join(OR_OPERATOR);
         }
+    }
+
+    getKarnaughIndexesMap() {
+        return this.#karnaughMap.getIndexesMap();
+    }
+    getKarnaughActivationsMap() {
+        return this.#karnaughMap.getActivationMap();
+    }
+
+    getminTerm(index: number) {
+        return this.#minTerms[index].getValue();
     }
 }

@@ -1,7 +1,7 @@
 import { InputBooleanVariable } from "./InputBooleanVariable";
 import { TruthTable } from "./TruthTable";
 
-export default class BooleanFunction {
+export class BooleanFunction {
     #inputs: Array<InputBooleanVariable>;
     #activatedminterms: Array<number>;
     #truthTable: TruthTable;
@@ -11,11 +11,17 @@ export default class BooleanFunction {
             inputs,
             activatedminterms
         }: {
-            inputs: Array<InputBooleanVariable>,
+            inputs: Array<string>,
             activatedminterms: Array<number>
         }
     ) {
-        this.#inputs = inputs;
+        this.#inputs = [];
+       for (let i = 0; i < inputs.length; i++) {
+            this.#inputs.push(new InputBooleanVariable({
+                index: i,
+                name: inputs[i]
+            }));
+        }
         this.#activatedminterms = activatedminterms;
         this.#truthTable = new TruthTable({
             numberOfInputs: this.#inputs.length,
@@ -41,5 +47,11 @@ export default class BooleanFunction {
     }
     getStringRepresentation() {
         return this.#truthTable.getStringRepresentation();
+    }
+    getKarnaughIndexesMap() {
+        return this.#truthTable.getKarnaughIndexesMap();
+    }
+    getKarnaughActivationsMap() {
+        return this.#truthTable.getKarnaughActivationsMap();
     }
 }

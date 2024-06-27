@@ -35,5 +35,8 @@ export class minTerm {
     getNumberOfInputs() {
         return this.#numberOfInputs;
     }
-
+    isActivated() {
+        return this.#isActivated;
+    }
+    
 }
