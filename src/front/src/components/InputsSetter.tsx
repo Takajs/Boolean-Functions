@@ -1,4 +1,6 @@
-export default function InputsSetter({ inputs, setInputs }: { inputs: Array<string>, setInputs: Function }) {
+import StringRepresentation from "./StringRepresentation"
+
+export default function InputsSetter({ inputs, setInputs, booleanFunction }: { inputs: Array<string>, setInputs: (inputs: Array<string>) => void, booleanFunction: BooleanFunction }) {
 
   const addInput = (inputName: string) => {
     setInputs([...inputs, inputName])
@@ -21,17 +23,29 @@ export default function InputsSetter({ inputs, setInputs }: { inputs: Array<stri
   }
 
   return (
-    <div>
-      <button onClick={() => addInput(generateInputName())}>+</button>
-      <button onClick={() => removeInput(inputs.length - 1)}>-</button>
-      {inputs.map((inputName, index) => (
-        <input
-          key={index}
-          value={inputName}
-          onChange={(e) => { handleOnChange(e, index) }}
-        />
-      ))}
+    <div
+    className="header">
+      <div
+        className="inputs-setter"
+      >
+        <button onClick={() => removeInput(inputs.length - 1)}>-</button>
+        <div
+          className="inputs-setter__inputs"
+        >
+          {inputs.map((inputName, index) => (
+            <input
+              className="inputs-setter__inputs"
+              key={index}
+              value={inputName}
+              onChange={(e) => { handleOnChange(e, index) }}
+            />
+          ))}
+        </div>
+        <button onClick={() => addInput(generateInputName())}>+</button>
+      </div>
+      <StringRepresentation booleanFunction={booleanFunction} />
     </div>
+
   )
 
 }

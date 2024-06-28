@@ -49,10 +49,10 @@ export class InputBooleanVariable {
     }
     changeName(newName: string) {
         if (isForbiddenBooleanVariableName(newName)) {
-            throw new Error(`The name ${newName} is not allowed, please use a different name.`);
+            //throw new Error(`The name ${newName} is not allowed, please use a different name.`);
         }
         if (isAlreadyInUseBooleanVariableName(newName)) {
-            throw new Error(`The name ${newName} is already in use, please use a different name.`);
+            //throw new Error(`The name ${newName} is already in use, please use a different name.`);
         }
         this.#name = newName;
         usedNames.delete(this.#name);

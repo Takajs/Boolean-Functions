@@ -3,7 +3,6 @@ export class KarnaughMap {
 
     #minTerms: Array<minTerm>;
     #indexesMap: Array<Array<number>>;
-    #activationMap: Array<Array<Boolean>>;
 
     constructor({
         minTerms
@@ -12,11 +11,10 @@ export class KarnaughMap {
     }) {
         this.#minTerms = minTerms;
         this.#indexesMap = this.generateIndexesMap();
-        this.#activationMap = this.generateActivationMap();
+        this.solveByGrouping();
     }
-
     generateIndexesMap() {
-        if(this.#minTerms.length === 4){
+        if (this.#minTerms.length === 4) {
             return [[0, 1, 2, 3]];
         }
         let baseIndexes: Array<Array<number>> = [[0, 1]]; //For 1 variable
@@ -52,28 +50,15 @@ export class KarnaughMap {
 
             }
         }
-        for (let i = 1; i < this.#minTerms[0].getNumberOfInputs(); i++) {
+        const max = this.#minTerms[0].getNumberOfInputs()
+        for (let i = 1; i < max; i++) {
             baseIndexes = mirrorK(baseIndexes);
         }
         return baseIndexes;
     }
-
     getIndexesMap() {
         return this.#indexesMap;
     }
-    getActivationMap() {
-        return this.#activationMap;
-    }
-
-    generateActivationMap() {
-        let map: Array<Array<Boolean>> = [];
-        for (let i = 0; i < this.#indexesMap.length; i++) {
-            map.push([]);
-            for (let j = 0; j < this.#indexesMap[i].length; j++) {
-                map[i].push(this.#minTerms[this.#indexesMap[i][j]].getValue()[this.#minTerms[this.#indexesMap[i][j]].getValue().length - 1]);
-            }
-        }
-        this.#activationMap = map;
-        return map;
+    solveByGrouping() {
     }
 }

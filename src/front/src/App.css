@@ -1,0 +1,26 @@
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    font: inherit;
+    color: #6a2675;
+    background-color: transparent;
+    max-width: 4rem;
+    max-width: 4rem;
+    min-width: 4rem;
+    min-width: 4rem;
+    text-align: center;
+}
+
+input[type="checkbox"]::before {
+    content: "0";
+
+}
+
+input[type="checkbox"]:checked::before {
+    content: "1";
+}

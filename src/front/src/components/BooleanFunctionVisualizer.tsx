@@ -2,15 +2,16 @@ import { BooleanFunction as BooleanFunctionClass } from '../../../modules/boolea
 
 import ActivatedMintermsVisualizer from './ActivatedMintermsVisualizer';
 import KarnaughMap from './KarnaughMap';
-import StringRepresentation from './StringRepresentation';
 import TruthTable from './TruthTable';
 
-export default function BooleanFunctionVisualizer({ booleanFunction, setBooleanFunction }: { booleanFunction: BooleanFunctionClass, setBooleanFunction: (booleanFunction: BooleanFunctionClass) => void }) {
+export default function BooleanFunctionVisualizer({ booleanFunction, setBooleanFunction , inputs, setInputs }: { booleanFunction: BooleanFunctionClass, setBooleanFunction: (booleanFunction: BooleanFunctionClass) => void, inputs: Array<string>, setInputs: (inputs: Array<string>) => void }) {
+       
     return (
-        <div>
-            <TruthTable booleanFunction={booleanFunction} />
-            <ActivatedMintermsVisualizer booleanFunction={booleanFunction} />
-            <StringRepresentation booleanFunction={booleanFunction} />
+       <div className="BooleanFunctionVisualizer">
+            <div className="TruthTableInfo">
+                <ActivatedMintermsVisualizer booleanFunction={booleanFunction} />
+                <TruthTable booleanFunction={booleanFunction} setBooleanFunction={setBooleanFunction} inputs={inputs} setInputs={setInputs} />
+            </div>
             <KarnaughMap booleanFunction={booleanFunction} />
         </div>
     )

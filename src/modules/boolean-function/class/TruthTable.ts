@@ -46,6 +46,9 @@ export class TruthTable {
     }
 
     getStringRepresentation() {
+        if (!this.#activatedminTerms?.length) {
+            return '0';
+        }
         switch (this.#activatedminTerms.length) {
             case 0:
                 return '0';
@@ -73,5 +76,12 @@ export class TruthTable {
 
     getminTerm(index: number) {
         return this.#minTerms[index].getValue();
+    }
+    solveKarnaughMap() {
+        return this.#karnaughMap.solveByGrouping();
+    }
+    getRepresentativeBinaryArray() {
+        //This will return a single array that is formed by pushing one by one (in order from 0 to max) the last element of each minTerm
+        return (this.#minTerms.map(minTerm => minTerm.getValue()[minTerm.getValue().length - 1])).reverse();
     }
 }

@@ -24,6 +24,9 @@ export class minTerm {
         result.push(this.#isActivated);
         return result;
     }
+    getIndex() {
+        return this.#index;
+    }
 
     getValue() {
         return this.#value;
