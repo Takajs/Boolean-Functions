@@ -1,5 +1,6 @@
 import { minTerm } from "./minTerm";
 import { KarnaughMap } from "./KarnaughMap";
+import { GameOfLife } from "./GameOfLife";
 
 const OR_OPERATOR = ' + ';
 const AND_OPERATOR = '';
@@ -11,12 +12,20 @@ export class TruthTable {
     #activatedminTerms: Array<number>;
     #stringRepresentation: string;
     #karnaughMap: KarnaughMap;
+    #gameOfLife: GameOfLife;
+    #binaryRepresentative: string;
+    #golboard: Array<Array<boolean>>;
+
     constructor({
         numberOfInputs,
-        activatedminTerms
+        activatedminTerms,
+        board
+
     }: {
         numberOfInputs: number,
-        activatedminTerms?: Array<number>
+        activatedminTerms?: Array<number>,
+        board?: Array<Array<boolean>>
+
     }) {
         this.#numberOfInputs = numberOfInputs;
         this.#activatedminTerms = activatedminTerms || [];
@@ -27,8 +36,24 @@ export class TruthTable {
         this.#karnaughMap = new KarnaughMap({
             minTerms: this.#minTerms
         });
+
+        this.#binaryRepresentative = this.getRepresentativeBinaryArray().join('');
+        this.#gameOfLife = new GameOfLife({
+            numberOfRows: 70,
+            numberOfColumns: 70,
+            rules: this.#binaryRepresentative,
+            board: board ? board : []
+        });
+        this.#golboard = this.#gameOfLife.getBoard();
     }
 
+    getBoard() {
+        return this.#golboard;
+    }
+    nextStateGameOfLife() {
+        this.#golboard = this.#gameOfLife.getNextState();
+        return this.#golboard;
+    }
     generateTruthTable() {
         for (let i = 0; i < (2 ** this.#numberOfInputs); i++) {
             this.#minTerms.push(new minTerm({
@@ -81,7 +106,13 @@ export class TruthTable {
         return this.#karnaughMap.solveByGrouping();
     }
     getRepresentativeBinaryArray() {
-        //This will return a single array that is formed by pushing one by one (in order from 0 to max) the last element of each minTerm
         return (this.#minTerms.map(minTerm => minTerm.getValue()[minTerm.getValue().length - 1])).reverse();
+    }
+
+    setNewSizesForGameOfLife(numberOfRows: number, numberOfColumns: number) {
+        this.#gameOfLife.setNewSizes({ numberOfRows, numberOfColumns });
+    }
+    getGameOfLife() {
+        return this.#gameOfLife;
     }
 }

@@ -3,16 +3,25 @@ export class GameOfLife {
     #numberOfRows: number;
     #numberOfColumns: number;
     #board: Array<Array<boolean>>;
+    #binaryRepresentative: number;
     #rules: string;
 
-    constructor({ numberOfRows, numberOfColumns, rules }: { numberOfRows: number, numberOfColumns: number, rules: string }) {
+    constructor({ numberOfRows, numberOfColumns, rules, board }: { numberOfRows: number, numberOfColumns: number, rules: string, board?: Array<Array<boolean>> }) {
         this.#numberOfRows = numberOfRows;
         this.#numberOfColumns = numberOfColumns;
+
+        this.#rules = rules.replace(/false/g, '0');
+        this.#rules = this.#rules.replace(/true/g, '1');
+
         this.#board = [];
         for (let i = 0; i < numberOfRows; i++) {
             this.#board.push([]);
             for (let j = 0; j < numberOfColumns; j++) {
-                this.#board[i].push(false);
+                if (board && i < board.length && j < board[i].length) {
+                    this.#board[i].push(board[i][j]);
+                } else {
+                    this.#board[i].push(false);
+                }
             }
         }
         this.#rules = rules;
@@ -91,11 +100,13 @@ export class GameOfLife {
         *   3. Assign the temp board to the actual board
         *   Log the result and return it
         */
+        ('The current state of the board is:');
 
-        console.log('The current state of the board is:');
-        this.beautyLogBoard();
-        let binaryString: string = this.#rules;
+        let binaryString: string = this.#rules.replace(/false/g, '0');
+        binaryString = binaryString.replace(/true/g, '1');
+
         let chunks: Array<string> = [];
+
         if (binaryString.length <= 6) {
             binaryString = binaryString.slice(0, 4);
             chunks.push(binaryString);
@@ -107,6 +118,7 @@ export class GameOfLife {
             }
             chunks.push(binaryString);
         }
+
 
         let temp: Array<Array<boolean>> = [];
         for (let i = 0; i < this.#numberOfRows; i++) {
@@ -138,7 +150,7 @@ export class GameOfLife {
                         } else {
                             JSrules = '(false';
                         }
-                        
+
                         if (k < chunks.length - 1) {
                             //bits 4-5 (operator)
                             JSrules += getDecodedJSOperator(chunks[k].slice(4, 6));
@@ -152,8 +164,6 @@ export class GameOfLife {
             }
         }
         this.#board = temp;
-        console.log('The next state of the board is:');
-        this.beautyLogBoard();
         return this.#board;
     }
     beautyLogBoard() {
@@ -162,7 +172,37 @@ export class GameOfLife {
             for (let j = 0; j < this.#numberOfColumns; j++) {
                 row += this.#board[i][j] ? '1 ' : '0 ';
             }
-            console.log(row);
+            console.log(`${i}:[${row}]`)
         }
+    }
+    setNewSizes({ numberOfRows, numberOfColumns }: { numberOfRows: number, numberOfColumns: number }) {
+        this.#numberOfRows = numberOfRows;
+        this.#numberOfColumns = numberOfColumns;
+        this.#board = [];
+        for (let i = 0; i < numberOfRows; i++) {
+            this.#board.push([]);
+            for (let j = 0; j < numberOfColumns; j++) {
+                if (i < this.#board.length && j < this.#board[i].length) {
+                    this.#board[i].push(this.#board[i][j]);
+                } else {
+                    this.#board[i].push(false);
+                }
+            }
+        }
+    }
+    clone() {
+        const game = new GameOfLife({
+            numberOfRows: this.#numberOfRows,
+            numberOfColumns: this.#numberOfColumns,
+            rules: this.#rules,
+            board: this.#board
+        })
+        //copy the board
+        for (let i = 0; i < this.#numberOfRows; i++) {
+            for (let j = 0; j < this.#numberOfColumns; j++) {
+                game.getBoard()[i][j] = this.#board[i][j];
+            }
+        }
+        return game;
     }
 }
