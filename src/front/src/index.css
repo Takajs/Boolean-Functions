@@ -1,7 +1,6 @@
 .cell {
     background-color: transparent;
     border-radius: 0;
-    border: 15px solid #000000;
 }
 
 .activated {
@@ -32,15 +31,18 @@ body {
     justify-content: center;
     align-items: start;
     flex-direction: row;
-    background-color: #000000c2;
-    color: #ffffff;
+    background-color: #000000ca;
+    color: #91DDCF;
     font-family: monospace, sans-serif;
+
     @media (max-width: 600px) {
         font-size: 1em;
     }
+
     @media (min-width: 600px) {
         font-size: 1.2em;
     }
+
     @media (min-width: 1200px) {
         font-size: 1.3em;
     }
@@ -49,7 +51,7 @@ body {
 input,
 button {
     background-color: #00000011;
-    color: #ffffff;
+    color: #91DDCF;
     font-family: monospace, sans-serif;
     font-size: 1.5em;
     max-width: 1.5em;
@@ -61,3 +63,7 @@ button {
 
 }
 
+table {
+    opacity: 0.8;
+
+}

@@ -7,12 +7,37 @@ import ActivatedMintermsVisualizer from './ActivatedMintermsVisualizer'
 
 export default function TruthTable({ booleanFunction, setBooleanFunction, inputs, setInputs, windowWidth, windowHeight }: { booleanFunction: BooleanFunction, setBooleanFunction: (booleanFunction: BooleanFunction) => void, inputs: Array<string>, setInputs: (inputs: Array<string>) => void, windowWidth: number, windowHeight: number }) {
     const [simulating, setSimulating] = useState(false)
+    const [timeBetweenSimulations, setTimeBetweenSimulations] = useState(1000)
     const addInput = (inputName: string) => {
         setSimulating(false)
         setInputs([...inputs, inputName])
 
     }
 
+    //A component that renders a slider to change the time between simulations
+    function TimeBetweenSimulations() {
+        return (
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginBottom: '2rem',
+                }}
+            >
+                <input
+                    type="range"
+                    min="50"
+                    max="5000"
+                    value={timeBetweenSimulations}
+                    onChange={(e) => {
+                        setTimeBetweenSimulations(parseInt(e.target.value))
+                    }}
+                />
+            </div>
+        )
+    }
 
     const removeInput = (index: number) => {
         setSimulating(false)
@@ -50,13 +75,13 @@ export default function TruthTable({ booleanFunction, setBooleanFunction, inputs
     };
 
     useEffect(() => {
-        intervalRef.current = setInterval(myFunction, 1000);
+        intervalRef.current = setInterval(myFunction, timeBetweenSimulations);
 
         return () => {
             clearInterval(intervalRef.current);
         };
 
-    }, [simulating]);
+    }, [simulating, timeBetweenSimulations]);
 
 
     function renderCheckboxActivateminTerm(minTerm: minTerm, index: number) {
@@ -69,7 +94,6 @@ export default function TruthTable({ booleanFunction, setBooleanFunction, inputs
                     checked={minTerm.getValue()[minTerm.getValue().length - 1]}
                     onChange={() => {
                         setSimulating(false)
-                        //add to the list of minTerms to invert
                         const newFunction = new BooleanFunction({
                             inputs: inputs,
                             activatedminterms: booleanFunction.getActivatedminTerms(),
@@ -107,6 +131,21 @@ export default function TruthTable({ booleanFunction, setBooleanFunction, inputs
                 justifyContent: 'center',
                 alignItems: 'center',
             }}>
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'start',
+                    alignItems: 'center',
+                    marginBottom: '2rem',
+                    position: 'absolute',
+                    zIndex: 11,
+                    top: '0',
+                    left: '80%',
+                }}>
+                {timeBetweenSimulations && <TimeBetweenSimulations />}
+
+            </div>
             <div
                 style={{
                     display: 'flex',
